@@ -1,0 +1,14 @@
+ frontend besthor_front_end
+        bind *:80
+        bind *:443 ssl crt /etc/letsencrypt/live/www.myfoibeu.tech/fullchain.pem
+        http-request redirect scheme https unless { ssl_fc }
+        http-request set-header X-Forwarded-Proto https
+        default_backend web-backend
+ 
+ backend FoibeU_back_end
+        balance roundrobin
+        server 5757-web-01 184.73.95.37:80 check
+        server 5757-web-02  54.174.165.67:80 check
+ 
+  backend letsencrypt-backend
+      server letsencrypt 54.224.147.238:54321
